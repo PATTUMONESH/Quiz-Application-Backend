@@ -22,6 +22,10 @@ public class UserScore {
     private String firstName;
     private String lastName;
     private int score;
+    private int correct;
+    private int inCorrect;
+    private int notVisited;
+    private int total;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

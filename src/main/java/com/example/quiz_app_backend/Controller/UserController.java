@@ -1,5 +1,6 @@
 package com.example.quiz_app_backend.Controller;
 
+import com.example.quiz_app_backend.Entity.MailStructure;
 import com.example.quiz_app_backend.Entity.Response;
 import com.example.quiz_app_backend.Entity.UserDetails;
 import com.example.quiz_app_backend.Entity.UserScore;
@@ -54,29 +55,120 @@ public class UserController {
         }
         return userObject;
     }
+//    @PostMapping("/userscore/{userId}")
+//    public ResponseEntity<Response> saveUserScoreById(@RequestBody UserScore userScore, @PathVariable Long userId) {
+//        userImpl.saveUserScore(userScore, userId);
+//        String email=userImpl.getUserEmailById(userId);
+//
+//        // Send email
+//        MailStructure mailStructure = new MailStructure();
+//        mailStructure.setSubject("Score Submission Confirmation");
+//        mailStructure.setMessage("Your score is "+userScore.getScore());
+//        userImpl.sendMailUser(email, mailStructure);
+//
+//
+//        Response mailResponse = new Response();
+//        mailResponse.setMessage("Score submitted and email sent successfully");
+//        mailResponse.setStatus(HttpStatus.CREATED.value());
+//        return new ResponseEntity<>(mailResponse, HttpStatus.OK);
+//        Response addScoreresponse = new Response();
+//        addScoreresponse.setMessage("user Score added successful");
+//        addScoreresponse.setStatus(HttpStatus.CREATED.value());
+//       System.out.println(addScoreresponse.getStatus());
+//        return new ResponseEntity<>(addScoreresponse, HttpStatus.OK);
+// }
 
 
     @PostMapping("/userscore/{userId}")
     public ResponseEntity<Response> saveUserScoreById(@RequestBody UserScore userScore, @PathVariable Long userId) {
         userImpl.saveUserScore(userScore, userId);
-        Response addScoreresponse = new Response();
-        addScoreresponse.setMessage("user Score added successful");
-        addScoreresponse.setStatus(HttpStatus.CREATED.value());
-//        System.out.println(response.getStatus());
-        return new ResponseEntity<>(addScoreresponse, HttpStatus.OK);
+
+
+        String email = userImpl.getUserEmailById(userId);
+
+
+        // Send email
+        MailStructure mailStructure = new MailStructure();
+
+
+        mailStructure.setSubject("Score Submission Confirmation");
+        mailStructure.setMessage("Your score is " + userScore.getScore());
+
+
+        mailStructure.setName(userScore.getFirstName().toUpperCase().concat(" ").concat(userScore.getLastName().toUpperCase()));
+
+
+        System.out.println(userScore.getFirstName());
+
+        mailStructure.setScore(userScore.getScore());
+
+        int score = userScore.getScore();
+        String description = score > 60 ? "Congratulations,you are shotlisted for next round" : "Better luck next time,you are not qualified in screening test";
+        System.out.println("Description: " + description);
+        mailStructure.setDescription(description);
+
+
+
+
+
+        System.out.println(userScore.getScore());
+
+
+
+        mailStructure.setCorrectAnswer(userScore.getCorrect());
+        System.out.println(userScore.getCorrect());
+
+        mailStructure.setWrongAnswer(userScore.getInCorrect());
+
+        System.out.println(userScore.getInCorrect());
+
+        mailStructure.setUnAtteptedQuestion(userScore.getNotVisited());
+        System.out.println(userScore.getNotVisited());
+        mailStructure.setTotalQuestions(userScore.getTotal());
+        System.out.println(userScore.getTotal());
+
+        userImpl.sendMailUser(email, mailStructure);
+
+        Response mailResponse = new Response();
+        mailResponse.setMessage("Score submitted and email sent successfully");
+        mailResponse.setStatus(HttpStatus.CREATED.value());
+        return new ResponseEntity<>(mailResponse, HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/usescorelist")
     public List<UserScore> getAllUserScores() {
         return userImpl.getAllUserScores();
     }
 
+
+//    @PostMapping("/send/{mail}")
+//    public ResponseEntity<Response> sendMail(@PathVariable String mail, @RequestBody MailStructure mailStructure){
+//        userImpl.sendMailUser(mail,mailStructure);
+//        Response mailResponse = new Response();
+//        mailResponse.setMessage("mail sent successfully");
+//        mailResponse.setStatus(HttpStatus.CREATED.value());
+//        return new ResponseEntity<>(mailResponse, HttpStatus.OK);
+//    }
+
+
+
+}
+
+
+
+
+
 //    @GetMapping("/userscore/{userId}")
 //    public ResponseEntity<Response> getUserById(@PathVariable long userId){
-//
-//
-//
-//
 //    }
 
 
@@ -85,4 +177,4 @@ public class UserController {
 
 
 
-}
+

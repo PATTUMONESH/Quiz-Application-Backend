@@ -9,7 +9,7 @@
                 color: green;
             }
             .better-luck {
-                color: red;
+                color: brown;
             }
 
 
@@ -48,11 +48,10 @@
 
 
 
+    <p class="<#if score?? && score gt 60>congrats<#else>better-luck</#if>">${description}</p>
+    <br>
 
-                     <td class="<#if score > 60>congrats<#else>better-luck</#if>">${description}</td>
-
-
-                    <p class="subheader-text">Here are the details of your performance:</p>
+ <p class="subheader-text">Here are the details of your performance:</p>
                 </div>
                 <div class="table-container">
                     <table class="table table-bordered table-striped">

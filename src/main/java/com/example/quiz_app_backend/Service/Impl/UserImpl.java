@@ -2,8 +2,10 @@ package com.example.quiz_app_backend.Service.Impl;
 
 
 import com.example.quiz_app_backend.Entity.MailStructure;
+import com.example.quiz_app_backend.Entity.QuestionsConfig;
 import com.example.quiz_app_backend.Entity.UserDetails;
 import com.example.quiz_app_backend.Entity.UserScore;
+import com.example.quiz_app_backend.Repository.QuestionListRepository;
 import com.example.quiz_app_backend.Repository.UserRepository;
 import com.example.quiz_app_backend.Repository.UserScoreRepository;
 import com.example.quiz_app_backend.Service.UserService;
@@ -14,7 +16,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -33,6 +35,9 @@ public class UserImpl implements UserService {
 
 @Autowired
     private UserScoreRepository userScoreRepository;
+
+@Autowired
+private QuestionListRepository questionListRepository;
 
 //    @Autowired
 //    private JavaMailSender javaMailSender;
@@ -111,6 +116,8 @@ public class UserImpl implements UserService {
         this.userRepository=userRepository;
     }
 
+
+
     @Override
     public UserDetails saveUser(UserDetails userDetails) {
 
@@ -163,6 +170,23 @@ public class UserImpl implements UserService {
     public List<UserScore> getAllUserScores() {
         return userScoreRepository.findAll();
     }
+
+    public QuestionsConfig saveQuestions(QuestionsConfig questionsConfig){
+        return questionListRepository.save(questionsConfig);
+    }
+
+    public Optional<QuestionsConfig> getQuestionByQid(Integer Id){
+        return questionListRepository.findById(Id);
+    }
+
+
+    public List<QuestionsConfig> getAllQuestions() {
+        return questionListRepository.findAll();
+    }
+
+
+
+
 
 
 }

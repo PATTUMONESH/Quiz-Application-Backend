@@ -2,6 +2,7 @@ package com.example.quiz_app_backend.Service;
 
 
 import com.example.quiz_app_backend.Entity.MailStructure;
+import com.example.quiz_app_backend.Entity.QuestionsConfig;
 import com.example.quiz_app_backend.Entity.UserDetails;
 import com.example.quiz_app_backend.Entity.UserScore;
 import com.example.quiz_app_backend.Repository.UserRepository;
@@ -26,6 +27,7 @@ public interface UserService {
 
      List<UserScore> getAllUserScores();
     void sendMailUser(String mail, MailStructure mailStructure);
+    List<QuestionsConfig> getAllQuestions();
 
 
 

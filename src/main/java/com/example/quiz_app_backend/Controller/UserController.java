@@ -1,10 +1,8 @@
 package com.example.quiz_app_backend.Controller;
 
-import com.example.quiz_app_backend.Entity.MailStructure;
-import com.example.quiz_app_backend.Entity.Response;
-import com.example.quiz_app_backend.Entity.UserDetails;
-import com.example.quiz_app_backend.Entity.UserScore;
+import com.example.quiz_app_backend.Entity.*;
 import com.example.quiz_app_backend.Exception.BadLoginCredentials;
+import com.example.quiz_app_backend.Exception.ResourceNotFoundException;
 import com.example.quiz_app_backend.Exception.UserAlreadyExistsException;
 import com.example.quiz_app_backend.Service.Impl.UserImpl;
 import org.springframework.http.HttpStatus;
@@ -19,10 +17,12 @@ import java.util.List;
 @RequestMapping()
 public class UserController {
     private UserImpl userImpl;
-    public UserController(UserImpl userImpl){
 
-        this.userImpl=userImpl;
+    public UserController(UserImpl userImpl) {
+
+        this.userImpl = userImpl;
     }
+
     @PostMapping("/RegisterUsers")
     public ResponseEntity<Response> registerUser(@RequestBody UserDetails userDetails) {
         String tempEmailId = userDetails.getEmail();
@@ -40,15 +40,16 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
     @PostMapping("/Login")
 
-    public UserDetails loginUser(@RequestBody UserDetails userDetails){
+    public UserDetails loginUser(@RequestBody UserDetails userDetails) {
 
-        String tempEmail=userDetails.getEmail();
-        String tempPassword=userDetails.getPassword();
-        UserDetails userObject=null;
-        if(tempEmail!=null && tempPassword!=null){
-            userObject= userImpl.fetchUserByEmailAndPassword(tempEmail,tempPassword);
+        String tempEmail = userDetails.getEmail();
+        String tempPassword = userDetails.getPassword();
+        UserDetails userObject = null;
+        if (tempEmail != null && tempPassword != null) {
+            userObject = userImpl.fetchUserByEmailAndPassword(tempEmail, tempPassword);
         }
         if (userObject == null) {
             throw new BadLoginCredentials("bad credentials");
@@ -107,14 +108,7 @@ public class UserController {
         System.out.println("Description: " + description);
         mailStructure.setDescription(description);
 
-
-
-
-
         System.out.println(userScore.getScore());
-
-
-
         mailStructure.setCorrectAnswer(userScore.getCorrect());
         System.out.println(userScore.getCorrect());
 
@@ -136,14 +130,6 @@ public class UserController {
     }
 
 
-
-
-
-
-
-
-
-
     @GetMapping("/usescorelist")
     public List<UserScore> getAllUserScores() {
         return userImpl.getAllUserScores();
@@ -160,8 +146,43 @@ public class UserController {
 //    }
 
 
+    @PostMapping("/addQuestions")
+    public ResponseEntity<Response> storeQuestions(@RequestBody QuestionsConfig questionsConfig) {
+        userImpl.saveQuestions(questionsConfig);
+        Response response = new Response();
+        response.setMessage("Questions added successfully");
+        response.setStatus(HttpStatus.CREATED.value());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/getQuestion/{id}")
+    public ResponseEntity<QuestionsConfig> getQuestionById(@RequestParam Integer questionId) {
+        QuestionsConfig questionsConfig = userImpl.getQuestionByQid(questionId).orElseThrow(() -> new ResourceNotFoundException("Question does not exists with this id"));
+
+        return ResponseEntity.ok(questionsConfig);
+    }
+
+
+    @GetMapping("/getAllQuestions")
+    public ResponseEntity<List<QuestionsConfig>> getAllQuestions() {
+        List<QuestionsConfig> questions = userImpl.getAllQuestions();
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -170,6 +191,8 @@ public class UserController {
 //    @GetMapping("/userscore/{userId}")
 //    public ResponseEntity<Response> getUserById(@PathVariable long userId){
 //    }
+
+
 
 
 

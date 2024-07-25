@@ -1,11 +1,9 @@
 package com.example.quiz_app_backend.Service.Impl;
 
 
-import com.example.quiz_app_backend.Entity.MailStructure;
-import com.example.quiz_app_backend.Entity.QuestionsConfig;
-import com.example.quiz_app_backend.Entity.UserDetails;
-import com.example.quiz_app_backend.Entity.UserScore;
+import com.example.quiz_app_backend.Entity.*;
 import com.example.quiz_app_backend.Repository.QuestionListRepository;
+import com.example.quiz_app_backend.Repository.SubjectRepository;
 import com.example.quiz_app_backend.Repository.UserRepository;
 import com.example.quiz_app_backend.Repository.UserScoreRepository;
 import com.example.quiz_app_backend.Service.UserService;
@@ -38,6 +36,9 @@ public class UserImpl implements UserService {
 
 @Autowired
 private QuestionListRepository questionListRepository;
+
+@Autowired
+private SubjectRepository subjectRepository;
 
 //    @Autowired
 //    private JavaMailSender javaMailSender;
@@ -182,6 +183,9 @@ private QuestionListRepository questionListRepository;
 
     public List<QuestionsConfig> getAllQuestions() {
         return questionListRepository.findAll();
+    }
+    public Subject saveSubject(Subject subject){
+        return subjectRepository.save(subject);
     }
 
 

@@ -156,6 +156,20 @@ public class UserController {
 
     }
 
+    @PostMapping("/addSubject")
+    public ResponseEntity<Response> addSubject(@RequestBody Subject subject){
+
+        userImpl.saveSubject(subject);
+        Response response = new Response();
+        response.setMessage("Question set added successfully");
+        response.setStatus(HttpStatus.CREATED.value());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+
+
+
     @GetMapping("/getQuestion/{id}")
     public ResponseEntity<QuestionsConfig> getQuestionById(@RequestParam Integer questionId) {
         QuestionsConfig questionsConfig = userImpl.getQuestionByQid(questionId).orElseThrow(() -> new ResourceNotFoundException("Question does not exists with this id"));

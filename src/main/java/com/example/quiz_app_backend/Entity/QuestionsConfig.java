@@ -1,9 +1,6 @@
 package com.example.quiz_app_backend.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -19,6 +16,9 @@ public class QuestionsConfig {
     private String option3;
     private String option4;
     private String answer;
+    @ManyToOne
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
 
 
 

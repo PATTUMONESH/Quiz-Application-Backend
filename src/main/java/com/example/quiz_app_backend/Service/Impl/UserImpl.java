@@ -2,6 +2,7 @@ package com.example.quiz_app_backend.Service.Impl;
 
 
 import com.example.quiz_app_backend.Entity.*;
+import com.example.quiz_app_backend.Exception.ResourceNotFoundException;
 import com.example.quiz_app_backend.Repository.QuestionListRepository;
 import com.example.quiz_app_backend.Repository.SubjectRepository;
 import com.example.quiz_app_backend.Repository.UserRepository;
@@ -189,7 +190,13 @@ private SubjectRepository subjectRepository;
     }
 
 
+    public QuestionsConfig addQuestionToSubject(long subjectId, QuestionsConfig question) {
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subject not found with id " + subjectId));
 
+        question.setSubject(subject);
+        return questionListRepository.save(question);
+    }
 
 
 

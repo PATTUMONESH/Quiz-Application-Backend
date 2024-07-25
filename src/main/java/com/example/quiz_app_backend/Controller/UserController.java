@@ -156,16 +156,18 @@ public class UserController {
 
     }
 
-    @PostMapping("/addSubject")
-    public ResponseEntity<Response> addSubject(@RequestBody Subject subject){
+//    @PostMapping("/addSubject")
+//    public ResponseEntity<Response> addSubject(@RequestBody Subject subject){
+//
+//        userImpl.saveSubject(subject);
+//        Response response = new Response();
+//        response.setMessage("Question set added successfully");
+//        response.setStatus(HttpStatus.CREATED.value());
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//
+//    }
 
-        userImpl.saveSubject(subject);
-        Response response = new Response();
-        response.setMessage("Question set added successfully");
-        response.setStatus(HttpStatus.CREATED.value());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
-    }
+    
 
 
 

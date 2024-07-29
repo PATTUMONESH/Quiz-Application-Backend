@@ -1,5 +1,6 @@
 package com.example.quiz_app_backend.Controller;
 
+import com.example.quiz_app_backend.Dto.QuestionRequest;
 import com.example.quiz_app_backend.Entity.*;
 import com.example.quiz_app_backend.Exception.BadLoginCredentials;
 import com.example.quiz_app_backend.Exception.ResourceNotFoundException;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -17,9 +17,7 @@ import java.util.List;
 @RequestMapping()
 public class UserController {
     private UserImpl userImpl;
-
     public UserController(UserImpl userImpl) {
-
         this.userImpl = userImpl;
     }
 
@@ -146,14 +144,24 @@ public class UserController {
 //    }
 
 
+//    @PostMapping("/addQuestions")
+//    public ResponseEntity<Response> storeQuestions(@RequestBody QuestionsConfig questionsConfig) {
+//        userImpl.saveQuestions(questionsConfig);
+//        Response response = new Response();
+//        response.setMessage("Questions added successfully");
+//        response.setStatus(HttpStatus.CREATED.value());
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//
+//    }
+
     @PostMapping("/addQuestions")
-    public ResponseEntity<Response> storeQuestions(@RequestBody QuestionsConfig questionsConfig) {
-        userImpl.saveQuestions(questionsConfig);
+    public ResponseEntity<Response> storeQuestions(@RequestBody QuestionRequest questionRequest) {
+
+        userImpl.saveQuestions(questionRequest);
         Response response = new Response();
         response.setMessage("Questions added successfully");
         response.setStatus(HttpStatus.CREATED.value());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 //    @PostMapping("/addSubject")

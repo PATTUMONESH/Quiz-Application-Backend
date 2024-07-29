@@ -1,6 +1,7 @@
 package com.example.quiz_app_backend.Service.Impl;
 
 
+import com.example.quiz_app_backend.Dto.QuestionRequest;
 import com.example.quiz_app_backend.Entity.*;
 import com.example.quiz_app_backend.Exception.ResourceNotFoundException;
 import com.example.quiz_app_backend.Repository.QuestionListRepository;
@@ -99,20 +100,6 @@ private SubjectRepository subjectRepository;
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public  UserImpl(UserRepository userRepository,UserScoreRepository userScoreRepository){
         this.userScoreRepository=userScoreRepository;
         this.userRepository=userRepository;
@@ -173,9 +160,33 @@ private SubjectRepository subjectRepository;
         return userScoreRepository.findAll();
     }
 
-    public QuestionsConfig saveQuestions(QuestionsConfig questionsConfig){
+//    public QuestionsConfig saveQuestions(QuestionsConfig questionsConfig){
+//        return questionListRepository.save(questionsConfig);
+//    }
+
+
+    public QuestionsConfig saveQuestions(QuestionRequest questionRequest){
+        Subject subject=subjectRepository.findById(questionRequest.getSubjectid()).orElseThrow(()->new ResourceNotFoundException("subject not found with this id"));
+        QuestionsConfig questionsConfig=new QuestionsConfig();
+        questionsConfig.setQuestion(questionRequest.getQuestion());
+        questionsConfig.setAnswer(questionRequest.getAnswer());
+        questionsConfig.setOption1(questionRequest.getOption1());
+        questionsConfig.setOption2(questionRequest.getOption2());
+        questionsConfig.setOption3(questionRequest.getOption3());
+        questionsConfig.setOption4(questionRequest.getOption4());
+        questionsConfig.setAnswer(questionRequest.getAnswer());
+        questionsConfig.setSubject(subject);
         return questionListRepository.save(questionsConfig);
+
     }
+
+
+
+
+
+
+
+
 
     public Optional<QuestionsConfig> getQuestionByQid(Integer Id){
         return questionListRepository.findById(Id);

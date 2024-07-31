@@ -3,6 +3,7 @@ package com.example.quiz_app_backend.Entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Response {

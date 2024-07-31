@@ -1,8 +1,14 @@
 package com.example.quiz_app_backend.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+//@Data
+@Getter
+@Setter
 @Entity
+
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -78,12 +78,12 @@ public class UserController {
 // }
 
 
-    @PostMapping("/userscore/{userId}")
-    public ResponseEntity<Response> saveUserScoreById(@RequestBody UserScore userScore, @PathVariable Long userId) {
-        userImpl.saveUserScore(userScore, userId);
-
-
-        String email = userImpl.getUserEmailById(userId);
+//    @PostMapping("/userscore/{userId}")
+//    public ResponseEntity<Response> saveUserScoreById(@RequestBody UserScore userScore, @PathVariable Long userId) {
+//        userImpl.saveUserScore(userScore, userId);
+//
+//
+//        String email = userImpl.getUserEmailById(userId);
 
 
         // Send email
